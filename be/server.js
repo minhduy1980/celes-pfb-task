@@ -8,8 +8,6 @@ const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
-
-app.use(morgan("dev"));
 app.use(cors()); 
 
 app.use(bodyParser.json({ limit: "2mb" }));
