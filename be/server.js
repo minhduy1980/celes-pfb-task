@@ -1,16 +1,16 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const axios = require("axios");
 const cors = require("cors");
 const crypto = require("crypto");
-const axios = require("axios");
 
 require("dotenv").config();
 
 const app = express();
 app.use(cors()); 
 
-app.use(bodyParser.json({ limit: "2mb" }));
+app.use(bodyParser.json({ limit: "3mb" }));
 
 app.get(`${process.env.API}/rand_data`, async (req, res) => {
   const id = crypto.randomBytes(8).toString("hex");
@@ -24,7 +24,7 @@ app.post(`${process.env.API}/submit`, async (req, res) => {
   console.log(req.body);
 
   axios
-    .post(`${process.env.LOCALHOST}/submit_pfb`, await req.body)
+    .post(`${process.env.LOCALH}/submit_pfb`, await req.body)
     .then((respone) => {
       res.json(respone.data);
     })
@@ -39,7 +39,7 @@ app.get(
   async (req, res) => {
     const { id, height } = req.params;
     axios.get(
-      `${process.env.LOCALHOST}/namespaced_shares/${id}/height/${height}`
+      `${process.env.LOCALH}/namespaced_shares/${id}/height/${height}`
     ).then((respone) => {
       res.json(respone.data);
       console.log(respone.data);
@@ -50,7 +50,7 @@ app.get(
   }
 );
 
-const port = process.env.PORT;
+const port = process.env.PORT||8000;
 app.listen(port, "0.0.0.0", () =>
   console.log(`Server is running on port ${port}`)
 );
